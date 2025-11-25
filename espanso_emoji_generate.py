@@ -14,12 +14,12 @@ page = urlopen(url)
 html = page.read().decode("utf-8")
 soup = BeautifulSoup(html, "html.parser")
 
-# shortcodes fetched from https://unpkg.com/emojilib@2.4.0/emojis.json
+# shortcodes fetched from https://raw.githubusercontent.com/muan/emojilib/refs/heads/main/dist/emoji-en-US.json
 # from the package Emojilib found here https://github.com/muan/emojilib
-shortcodes_df = pd.read_json('../emoji_shortcodes.json', orient='index')
+shortcodes_df = pd.read_json('../emoji_shortcodes.json', orient='index', typ='series')
 
 CSV_OUTPUT_DIR = str(Path.cwd()) + "/emojis.csv"
-PACKAGE_OUTPUT_DIR = str(Path.cwd()) + "package.yml"
+PACKAGE_OUTPUT_DIR = str(Path.cwd()) + "/package.yml"
 
 table_rows = soup.find_all('tr')
 
@@ -113,13 +113,12 @@ for rows in table_rows:
 shortcodes_dict = {"unicode": [],
                     "shortcode": []}
 
-for row in shortcodes_df.index:
-    emoji = shortcodes_df.loc[row, "char"]
+for emoji, tags in shortcodes_df.items():
     unicode_string = emoji.encode('unicode-escape').decode('ASCII').upper()
     unicode_string = shortcode_cleanup(unicode_string)
 
     shortcodes_dict["unicode"].append(unicode_string)
-    shortcodes_dict["shortcode"].append(row)
+    shortcodes_dict["shortcode"].append(tags[0])
 
 shortcode_lookup = pd.DataFrame(data=shortcodes_dict)
 shortcode_lookup.head()
