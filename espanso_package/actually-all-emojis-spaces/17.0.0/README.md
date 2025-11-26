@@ -1,4 +1,4 @@
-## Actually All Emojis
+## Actually All Emojis (Spaces)
 
 An up-to-date package for [espanso](https://espanso.org/) which provides triggers for all emojis (`v17.0`). Emojis and codes fetched from [Unicode.org](https://unicode.org/emoji/charts/full-emoji-list.html)
 
